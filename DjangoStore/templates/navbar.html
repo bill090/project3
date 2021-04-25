@@ -1,0 +1,45 @@
+{% load cart_tag %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="/">PwA Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li {% if request.path == 'contact' %}class="nav-item active"{% else %}class="nav-item"{% endif %}>
+                    <a class="nav-link" href="#"> CPU <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> GPU </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"> Motherboards </a>
+                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'mainapp:cart-home' %}">
+                            <i class="fa fa-shopping-cart"></i> Cart <span class="badge badge-light">{{ request.user| cart_total_quantity }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">
+                            <i class="fas fa-user"></i> Hi {{ request.user.username }}!
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}"> Log Out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li><span>&nbsp;&nbsp;&nbsp;</span></li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
