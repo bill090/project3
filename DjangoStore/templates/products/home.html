@@ -5,13 +5,13 @@
         {% for product in all_products_list %}
             <div class="col-md-4 col-sm-12 col-lg-3 m-1">
                 <div class="card" style='width:100%; '>
-                    <img src="media/{{ product.mainimage }}" style="width:100%;" class="card-img-top" alt="{{ product.name }}">
+                    <img src= "media/{{ product.mainimage }}" style="width:100%;" class="card-img-top" alt="{{ product.name }}">
                     <div class="card-body">
                         <h6 class="card-title text-center"> {{ product.name }}</h6>
                         <p class="card-text text-center">${{ product.price }}</p>
                     </div>
                     <div class='card-footer text-center'>
-                        <a href="cart/{{product.slug}}" class="btn btn-success">Add to Cart</a>
+                        <a href="{% url 'mainapp:cart' product.slug %}" class="btn btn-success">Add to Cart</a>
                     </div>
                 </div>
             </div>
