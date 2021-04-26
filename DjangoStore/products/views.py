@@ -1,22 +1,31 @@
-from django.shortcuts import render
-from django.views.generic import ListView
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, FormView
 from django.template import Context
+from django.http import HttpResponseRedirect
 from .models import Product, Category
 
 # Create your views here.
 
-class Home(ListView):
-    model = Product
-    context_object_name = 'all_products_list'
-    template_name = 'products/home.html'
-
-# class CategoryView(ListView):
-#     model = Product
-#     context_object_name = 'cpu_products_list'
-#     template_name = 'products/home.html'
+def Home(request):
+    products = Product.objects.all()
+    context = {"all_products_list": list(products), 'listAll': False}
+    return render(request, 'products/home.html', context)
 
 def CategoryView(request, slug):
     category = Category.objects.filter(slug=slug)[0]
     products = Product.objects.filter(category=category)
-    context = {"all_products_list": list(products)}
+    context = {"all_products_list": list(products), 'listAll': True}
+    return render(request, 'products/home.html', context)
+
+def AllView(request):
+    products = Product.objects.all()
+    context = {"all_products_list": list(products), 'listAll': True}
+    return render(request, 'products/home.html', context)
+
+def SearchView(request):
+    query = request.GET.get('q')
+    products = Product.objects.filter(name__icontains=query)
+    
+    context = {"all_products_list": list(products), 'listAll': True}
+
     return render(request, 'products/home.html', context)

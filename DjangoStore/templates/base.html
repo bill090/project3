@@ -13,6 +13,12 @@
     <body>
         {% include 'navbar.html' %}
 
+        <div class="container">
+            <form action="{% url 'mainapp:search' %}" method="get">
+                <input name="q" type="text" placeholder="Search...">
+            </form>
+        </div>
+    
         {% if messages %}
             <div class="messages container mt-2">
                 {% for message in messages %}
