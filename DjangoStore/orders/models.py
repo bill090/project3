@@ -17,7 +17,7 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=50)
 
     def __str__(self):
-        return orderdate.strftime("%b.%d,%Y,%I:%M %p")
+        return self.orderdate.strftime("%b.%d,%Y,%I:%M %p")
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
