@@ -69,8 +69,5 @@ def checkoutView(request):
     city = request.GET.get('city')
     province = request.GET.get('province')
     postal_code = request.GET.get('postal-code')
-    objects = Cart.objects.filter(user=request.user)
-    for cart in objects:
-        cart.delete()
     messages.info(request, "You have checked out your cart.")
     return render(request, 'cart/checkout.html', {'query': [address, city, province, postal_code]})
