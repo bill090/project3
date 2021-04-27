@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView
+from django.views.generic import ListView, View
+from django.http import HttpResponseRedirect
 from .models import Cart
 from products.models import Product
 from django.contrib import messages
@@ -58,3 +59,18 @@ class CartListView(ListView):
     context_object_name = 'cart_list'
     def get_queryset(self):
         return Cart.objects.filter(user=self.request.user)
+
+def checkoutFormView(request):
+    cart = Cart.objects.filter(user=request.user)
+    return render(request, 'cart/checkoutForm.html', {'cart_list': cart})
+
+def checkoutView(request):
+    address = request.GET.get('address')
+    city = request.GET.get('city')
+    province = request.GET.get('province')
+    postal_code = request.GET.get('postal-code')
+    objects = Cart.objects.filter(user=request.user)
+    for cart in objects:
+        cart.delete()
+    messages.info(request, "You have checked out your cart.")
+    return render(request, 'cart/checkout.html', {'query': [address, city, province, postal_code]})

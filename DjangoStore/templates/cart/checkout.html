@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class=container>
+    <div>
+        <h2>
+            THANK YOU FOR YOUR NON-EXISTENT ORDER
+        </h2>
+        <p5>
+            seriously this is fake
+        </p5>
+    </div>
+    <div class="container">
+        <h4>
+            Your order will be shipped to:
+        </h4>
+            {% for item in query %}
+                <div>
+                    <p3>{{ item }}</p3>
+                </div>
+            {% endfor %}
+    </div>
+    <div class="container my-5">
+        <a href="{% url 'mainapp:home' %}" class="btn btn-success mr-4">GO BACK</a>
+    </div>
+</div>
+{% endblock content %}

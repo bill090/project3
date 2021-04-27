@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import Home, CategoryView, AllView, SearchView
-from cart.views import add_to_cart, CartListView, increase_cart, decrease_cart
+from cart.views import add_to_cart, CartListView, increase_cart, decrease_cart, checkoutFormView, checkoutView
 
 app_name = 'mainapp'
 
@@ -13,4 +13,6 @@ urlpatterns = [
     path('increase/<slug>', increase_cart, name='increase-cart'),
     path('decrease/<slug>', decrease_cart, name='decrease-cart'),
     path('cart/', CartListView.as_view(), name='cart-home'),
+    path('checkout-form', checkoutFormView, name='checkout-form'),
+    path('checkout', checkoutView, name='checkout'),
 ]

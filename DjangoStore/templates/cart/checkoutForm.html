@@ -2,6 +2,15 @@
 {% load cart_tag %}
 {% block content %}
     <div class="container my-5">
+        <form action="{% url 'mainapp:checkout' %}" method="GET">
+            <input name="address" type="text" placeholder="address">
+            <input name="city" type="text" placeholder="city">
+            <input name="province" type="text" placeholder="province">
+            <input name="postal-code" type="text" placeholder="postal-code">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    <div class="container my-5">
         <div class="my-5">
             <h2>Your Cart {{ request.user| cart_total_quantity }}</h2>
         </div>
@@ -19,10 +28,8 @@
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ cart.item.name }}</td>
-                        <td>                    
-                            <a class="mr-2" href="{% url 'mainapp:decrease-cart' cart.item.slug %}"><span class="badge badge-light"><i class="fas fa-minus"></i></span></a>
+                        <td>
                             {{ cart.quantity }}
-                            <a class="ml-2" href="{% url 'mainapp:increase-cart' cart.item.slug %}" ><span class="badge badge-light"><i class="fas fa-plus"></i></span></a>
                         </td>
                         <td style='text-align: right;'>$ {{ cart.get_total }} </td>
                     </tr>
@@ -31,18 +38,6 @@
                     <th scope="row"></th>
                     <td colspan="2">Total</td>
                     <td style='text-align: right;'>{{ request.user | cart_total_sum | floatformat:2 }}</td>
-                </tr>
-                <tr>
-                    <th scope="row"></th>
-                    {% if not cart_list %}
-                        <td colspan="3" class="text-right ">
-                            <a href="{% url 'mainapp:home' %}" class="btn btn-success mr-4">Get Some Items</a>
-                        </td>
-                    {% else %}
-                        <td colspan="3" class="text-right ">
-                            <a href="{% url 'mainapp:checkout-form' %}" class="btn btn-success mr-4">Proceed To Checkout</a>
-                        </td>
-                    {% endif %}
                 </tr>
             </tbody>
         </table>
