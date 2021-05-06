@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.views.generic import CreateView, ListView
 from django.forms import ModelForm
 from cart.models import Cart
 from datetime import datetime, timedelta
 from .models import Order, OrderItem
+from django.http import HttpResponseForbidden
 
 # Create your views here.
 
@@ -51,3 +53,16 @@ class OrderCompleteView(ListView):
         order = Order.objects.get(pk=self.kwargs['pk'],user=self.request.user)
         context['order_list'] = OrderItem.objects.filter(order=order)
         return context
+@login_required
+def OrderShowView(request):
+    Orders = Order.objects.filter(user=request.user)
+    context = {'orders': Orders}
+    return render(request, 'orders/order_show.html', context)
+@login_required
+def OrderDetailView(request, pk):
+    order = Order.objects.get(pk=pk)
+    if request.user != order.user:
+        return HttpResponseForbidden()
+    items = OrderItem.objects.filter(order=order)
+    context= {'order': order, 'items': items}
+    return render(request, 'orders/order_detail.html', context)

@@ -1,12 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, View
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from .models import Cart
 from products.models import Product
 from django.contrib import messages
 
 # Create your views here.
-
+@login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Product, slug=slug)
     cart, created = Cart.objects.get_or_create(
@@ -23,7 +25,7 @@ def add_to_cart(request, slug):
         messages.info(request, f"{cart.item.name} quantity has been updated")
 
     return redirect("mainapp:home")
-
+@login_required
 def increase_cart(request, slug):
     item = get_object_or_404(Product, slug=slug)
     cart_qs = Cart.objects.filter(user=request.user, item=item)
@@ -36,6 +38,7 @@ def increase_cart(request, slug):
         messages.warning(request, "This item was not in your cart")
     return redirect("mainapp:cart-home")
 
+@login_required
 def decrease_cart(request, slug):
     item = get_object_or_404(Product, slug=slug)
     cart_qs = Cart.objects.filter(user=request.user, item=item)
@@ -53,17 +56,19 @@ def decrease_cart(request, slug):
         messages.warning(request, "This item was not in your cart")
     return redirect("mainapp:cart-home")
 
-class CartListView(ListView):
+class CartListView(ListView, LoginRequiredMixin):
     model = Cart
     template_name = 'cart/home.html'
     context_object_name = 'cart_list'
     def get_queryset(self):
         return Cart.objects.filter(user=self.request.user)
 
+@login_required
 def checkoutFormView(request):
     cart = Cart.objects.filter(user=request.user)
     return render(request, 'cart/checkoutForm.html', {'cart_list': cart})
 
+@login_required
 def checkoutView(request):
     address = request.GET.get('address')
     city = request.GET.get('city')
