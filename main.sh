@@ -4,11 +4,11 @@ echo Which website will you run?
 
 read website
 
-if [website=CryptoAnalysis]
+if [ website=CryptoAnalysis ]
 then
   cd CryptoAnalysis
   pipenv run python manage.py runserver
-elif [website=DjangoStore]
+elif [ website=DjangoStore ]
 then
   cd DjangoStore
   pipenv run python manage.py runserver
