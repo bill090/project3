@@ -13,7 +13,9 @@ def homepage(request):
 
     if request.method == 'POST':
         crypto = request.POST['crypto']
-
+    else:
+        crypto = 'BTC'
+    
     market = 'USD'
     
     result = get_crypto_data(crypto, market, "FXW2F1NQB7AEGIU6")
