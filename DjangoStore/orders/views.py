@@ -7,6 +7,7 @@ from cart.models import Cart
 from datetime import datetime, timedelta
 from .models import Order, OrderItem
 from django.http import HttpResponseForbidden
+from django.contrib import messages
 
 # Create your views here.
 
@@ -67,15 +68,15 @@ def OrderDetailView(request, pk):
     context= {'order': order, 'items': items}
     return render(request, 'orders/order_detail.html', context)
 @login_required
-def OrderFlush(request, slug):
-    orders = Order.objects.get(user=request.user)
-    orderItems = OrderItem.objects.get(order__in=orders)
+def OrderFlush(request):
+    orders = Order.objects.filter(user=request.user)
+    orderItems = OrderItem.objects.filter(order__in=orders)
     if orders:
         for orderitem in orderItems:
             orderitem.delete()
         for order in orders:
             order.delete()
-        messages.info(request, f"{cart.item.name} has been added to your cart.")
+        messages.info(request, f"Your order history has been purged.")
     else:
         messages.info(request, f"You have no orders.")
 
