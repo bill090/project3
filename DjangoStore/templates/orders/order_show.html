@@ -33,5 +33,12 @@
                 {% endfor %}
             </tbody>
         </table>
+        <table>
+            <thead>
+                <tr>
+                    <a href="{% url 'mainapp:order-purge' %}"><th scope="col" style='text-align: right;'>Purge Order History</th></a>
+                </tr>
+            </thead>
+        </table>
     </div>
 {% endblock content %}

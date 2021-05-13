@@ -66,3 +66,17 @@ def OrderDetailView(request, pk):
     items = OrderItem.objects.filter(order=order)
     context= {'order': order, 'items': items}
     return render(request, 'orders/order_detail.html', context)
+@login_required
+def OrderFlush(request, slug):
+    orders = Order.objects.get(user=request.user)
+    orderItems = OrderItem.objects.get(order__in=orders)
+    if orders:
+        for orderitem in orderItems:
+            orderitem.delete()
+        for order in orders:
+            order.delete()
+        messages.info(request, f"{cart.item.name} has been added to your cart.")
+    else:
+        messages.info(request, f"You have no orders.")
+
+    return redirect("mainapp:orders-show")

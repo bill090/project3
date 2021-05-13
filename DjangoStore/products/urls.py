@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import Home, CategoryView, AllView, SearchView
 from cart.views import add_to_cart, CartListView, increase_cart, decrease_cart, checkoutFormView, checkoutView
-from orders.views import OrderCreateView, OrderCompleteView, OrderShowView, OrderDetailView
+from orders.views import OrderCreateView, OrderCompleteView, OrderShowView, OrderDetailView, OrderFlush
 
 app_name = 'mainapp'
 
@@ -19,4 +19,5 @@ urlpatterns = [
     path('orders/complete/<int:pk>', OrderCompleteView.as_view(), name='checkout'),
     path('orders/show', OrderShowView, name='orders-show'),
     path('orders/detail/<int:pk>', OrderDetailView, name='orders-detail'),
+    path('orders/flush', OrderFlush, name='orders-purge')
 ]
