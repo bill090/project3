@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Python: Django",
+            "name": "CryptoAnalysis",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/CryptoAnalysis/manage.py",
@@ -11,7 +11,7 @@
             "django": true
         },
         {
-            "name": "Python: Django",
+            "name": "DjangoStore",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/DjangoStore/manage.py",
